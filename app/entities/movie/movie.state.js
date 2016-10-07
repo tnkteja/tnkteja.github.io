@@ -13,7 +13,7 @@
                 parent: 'entity',
                 url: '/movie',
                 data: {
-                    authorities: ['ROLE_USER'],
+                    authorities: [],
                     pageTitle: 'Movies'
                 },
                 views: {
