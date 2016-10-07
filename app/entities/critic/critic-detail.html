@@ -1,0 +1,23 @@
+
+<div>
+    <h2><span>Critic</span> {{vm.critic.id}}</h2>
+    <hr>
+    <dl class="dl-horizontal">
+        <dt><span>IsActive</dt></dt>
+        <dd>
+            <span>{{vm.critic.isActive}}<span>
+        </dd>
+        <hr>
+        <dt><span>user</span></dt>
+        <dd>
+            {{vm.critic.userLogin}}
+        </dd>
+        <hr>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-primary">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

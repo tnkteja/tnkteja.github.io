@@ -1,0 +1,118 @@
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myQuestionLabel">Question Details</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" has-authority="ROLE_ADMIN" ng-show="vm.question.id !== null">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   ng-model="vm.question.id" readonly/>
+        </div>
+        <div class="form-group" has-authority="ROLE_ADMIN">
+            <label class="control-label" for="field_question">Question</label>
+            <input type="text" class="form-control" name="question" id="field_question"
+                   ng-model="vm.question.question"
+                   required ng-minlength="20" ng-maxlength="255"/>
+            <div ng-show="editForm.question.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.question.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.question.$error.minlength" translate-value-min="20">
+                    This field is required to be at least 20 characters.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.question.$error.maxlength">
+                    This field cannot be longer than 255 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group" ng-show="!vm.isAdmin">
+            <label class="control-label" for="field_question">Question</label>
+            <p>{{vm.question.question}}</p>
+        </div>
+
+        <div class="form-group" has-authority="ROLE_ADMIN">
+            <label class="control-label" translate="csc510ProjectApp.question.answer_type" for="field_answer_type">Answer
+                Type</label>
+            <select ng-model="vm.question.answer_type" class="form-control" id="field_answer_type" ng-options="o.value as o.text for o in vm.answerTypeOptions" ng-change="vm.changeAnswerType()">
+            </select>
+            <div ng-show="editForm.answer_type.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.answer_type.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.answer_type.$error.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.answer_type.$error.max">
+                    This field cannot be more than 4.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.answer_type.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group" has-authority="ROLE_ADMIN">
+            <input type="checkbox" name="valid" id="field_valid"
+                   ng-model="vm.question.valid"/>
+            <label class="control-label" for="field_valid">Question is Valid</label>
+        </div>
+
+        <div class="form-group" has-authority="ROLE_ADMIN">
+            <div style="border-bottom: 1px solid #cccccc;">
+                <label class="control-label">Answer Choices</label>
+                <button type="button" class="btn btn-primary btn-sm pull-right" style="position:relative; top:-10px;" ng-click="vm.addAnswerChoice()"><i
+                    class="glyphicon glyphicon-plus-sign"></i>&nbsp;&nbsp;Add Answer Choice
+                </button>
+            </div>
+
+            <div class="row">
+                <div ng-repeat="n in vm.question.answers | orderBy: '-score'" class="form-inline">
+                    <div class="col-xs-10" style="padding-top: 10px;">
+                        Answer {{$index+1}} <a style="cursor:pointer;" ng-click="vm.removeAnswerChoice(n)"><i
+                        class="glyphicon glyphicon-trash"></i></a>
+                    </div>
+                    <div class="col-xs-2" style="padding-top: 10px;">
+                        Score
+                    </div>
+
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control" required="required" ng-minlength="2" ng-model="n.represent"
+                               style="width:100%;"/>
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="number" class="form-control" required="required"  aria-valuemin="0" aria-valuemax="100" ng-model="n.score"
+                               style="width:100%;"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="!vm.isAdmin">
+            <label class="control-label">Answers</label>
+            <div ng-repeat="n in vm.question.answers" style="padding-bottom: 5px;">
+             <label style="font-weight: normal;cursor:pointer;"><span>{{n.represent}}</span></label>
+                <span>{{n.answerCount}} Replies</span>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

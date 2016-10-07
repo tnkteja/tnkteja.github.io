@@ -1,0 +1,71 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myMovieLabel">Create Movie</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <!--<div class="form-group" ng-show="!!vm.movie.id">-->
+            <!--<label for="id">ID</label>-->
+            <!--<input type="text" class="form-control" id="id" name="id"-->
+                    <!--ng-model="vm.movie.id" readonly />-->
+        <!--</div>-->
+        <div class="form-group">
+            <label class="control-label" for="field_title">Title</label>
+            <input type="text" class="form-control" name="title" id="field_title"
+                    ng-model="vm.movie.title"
+                    required />
+            <div ng-show="editForm.title.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.title.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_image">Image URL</label>
+            <input type="text" class="form-control" name="image" id="field_image"
+                    ng-model="vm.movie.image" required
+                     />
+            <div ng-show="editForm.image.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.image.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_description">Description</label>
+              <textarea class="form-control" name="description" id="field_description"
+                        ng-model="vm.movie.description"
+                        required ng-minlength="100" rows="5"></textarea>
+            <div ng-show="editForm.description.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.description.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.description.$error.minlength" translate-value-min="100">
+                    This field is required to be at least 100 characters.
+                </p>
+            </div>
+        </div>
+        <!--<div class="form-inline">-->
+
+            <!--<input type="checkbox" class="form-control" name="reviewReady" id="field_reviewReady"-->
+                    <!--ng-model="vm.movie.reviewReady"-->
+                     <!--/>     <label class="control-label" for="field_reviewReady">Review Ready</label>-->
+        <!--</div>-->
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

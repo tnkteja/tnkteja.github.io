@@ -1,0 +1,33 @@
+
+<div>
+    <h2><span>Question</span> {{vm.question.id}}</h2>
+    <hr>
+    <dl class="dl-horizontal">
+        <dt><span>Question</dt></dt>
+        <dd>
+            <span>{{vm.question.question}}<span>
+        </dd>
+        <hr>
+        <dt><span>Valid</dt></dt>
+        <dd>
+            <span>{{vm.question.valid}}<span>
+        </dd>
+        <hr>
+        <dt><span translate="csc510ProjectApp.question.answer_type">Answer_type</dt></dt>
+        <dd>
+            <span translate="{{'csc510ProjectApp.AnswerType.' + vm.question.answer_type}}">{{vm.question.answer_type}}</span>
+        </dd>
+        <hr>
+        <dt><span>Answers</dt></dt>
+        <dd>
+            <span>{{vm.question.answers}}<span>
+        </dd>
+        <hr>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-default">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

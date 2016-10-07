@@ -1,0 +1,81 @@
+<div>
+    <h2>Movies</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="movie.edit({id: 0})" has-authority="ROLE_ADMIN" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="hidden-xs" >
+                        Create new Movie
+                    </span>
+                </button>
+            </div>
+            <div class="col-xs-8 no-padding-right">
+                <form name="searchForm" class="form-inline">
+                    <div class="input-group pull-right" >
+                        <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="Query">
+                        <span  class="input-group-btn width-min" >
+                            <button class="btn btn-primary" ng-click="vm.search(vm.searchQuery)">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                        <span class="input-group-btn width-min" ng-if="vm.currentSearch">
+                            <button class="btn btn-primary" ng-click="vm.clear()">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th style="cursor:pointer;" jh-sort-by="id" has-authority="ROLE_ADMIN"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th style="cursor:pointer;" jh-sort-by="title"><span>Title</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th style="cursor:pointer;" jh-sort-by="approval" class="text-center"><span>Rating</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th has-authority="ROLE_ADMIN" class="text-right">Options</th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
+                <tr ng-repeat="movie in vm.movies track by movie.id">
+
+                    <td style="cursor:pointer;" has-authority="ROLE_ADMIN" class="cellLink" ui-sref="movie-detail({id:movie.id})"><a ui-sref="movie-detail({id:movie.id})">{{movie.id}}</a></td>
+                    <td style="cursor:pointer;" ui-sref="movie-detail({id:movie.id})"><a ui-sref="movie-detail({id:movie.id})"><img ng-src="{{movie.image}}" style="width: 50px;" data-alt="{{movie.title}}" />
+                    <span style="font-weight:bolder;font-size:16px;">{{movie.title}}</span></a></td>
+
+                    <td style="cursor:pointer;font-weight:bold;text-align:right;" ng-style="{'color': (movie.approval > 60 ? 'green' : 'red')}" class="text-center" ui-sref="movie-detail({id:movie.id})">
+                        {{movie.approval | number:2}}
+
+                        <span class="glyphicon" ng-class="{'glyphicon-thumbs-up': movie.approval > 60, 'glyphicon-thumbs-down': movie.approval <= 60}"></span></td>
+                    <td class="text-right" has-authority="ROLE_ADMIN">
+                        <a ui-sref="movie.edit({id:movie.id})" title="Edit Movie"><span class="glyphicon glyphicon-pencil"></span></a>
+                        &nbsp;
+                        <a ui-sref="movie.delete({id:movie.id})" title="Delete Movie"><span class="glyphicon glyphicon-trash"></span></a>
+
+                        <!--<div class="btn-group flex-btn-group-container">-->
+                            <!--<button type="submit" has-authority="ROLE_ADMIN"-->
+                                    <!--ui-sref="movie.edit({id:movie.id})"-->
+                                    <!--class="btn btn-primary btn-sm">-->
+                                <!--<span class="glyphicon glyphicon-pencil"></span>-->
+                                <!--<span class="hidden-xs hidden-sm"></span>-->
+                            <!--</button>-->
+                            <!--<button type="submit" has-authority="ROLE_ADMIN"-->
+                                    <!--ui-sref="movie.delete({id:movie.id})"-->
+                                    <!--class="btn btn-danger btn-sm">-->
+                                <!--<span class="glyphicon glyphicon-remove-circle"></span>-->
+                                <!--<span class="hidden-xs hidden-sm"></span>-->
+                            <!--</button>-->
+                        <!--</div>-->
+
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

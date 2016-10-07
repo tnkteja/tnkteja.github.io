@@ -1,0 +1,111 @@
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myMovieLabel">
+            <span class="pull-left" ng-show="!!vm.movie.id">Edit Movie [{{vm.movie.title}}]</span>
+            <span class="pull-left" ng-show="!vm.movie.id">New Movie</span>
+            <div class="pull-right" ng-style="{'color': (vm.movie.approval > 60 ? 'green' : 'red')}" ng-show="!!vm.movie.id">
+                <span>Rating</span> <span>{{vm.movie.approval | number:2}}</span>&nbsp;
+                <span class="glyphicon" ng-class="{'glyphicon-thumbs-up': vm.movie.approval > 60, 'glyphicon-thumbs-down': vm.movie.approval <= 60}"></span>
+            </div>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="row">
+            <div class="col-xs-6">
+                <label class="control-label" for="field_title">Movie Title</label>
+                <input type="text" class="form-control" name="title" id="field_title"
+                       ng-model="vm.movie.title"
+                       required/>
+                <div ng-show="editForm.title.$invalid">
+                    <p class="help-block"
+                       ng-show="editForm.title.$error.required">
+                        This field is required.
+                    </p>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <label class="control-label" for="field_image">Poster Image URL</label>
+                <input type="text" class="form-control" name="image" id="field_image"
+                       ng-model="vm.movie.image"/>
+            </div>
+        </div>
+        <p></p>
+        <div class="row">
+            <div class="col-xs-12">
+                <label class="control-label" for="field_description">Movie Description</label>
+            <textarea class="form-control" name="description" id="field_description"
+                      ng-model="vm.movie.description"
+                      required ng-minlength="100" rows="5"></textarea>
+                <div ng-show="editForm.description.$invalid">
+                    <p class="help-block"
+                       ng-show="editForm.description.$error.required">
+                        This field is required.
+                    </p>
+                    <p class="help-block"
+                       5 ng-show="editForm.description.$error.minlength" translate-value-min="100">
+                        This field is required to be at least 100 characters.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--<div class="form-inline">-->
+            <!--<input type="checkbox" class="form-control" name="reviewReady" id="field_reviewReady"-->
+                   <!--ng-model="vm.movie.reviewReady"-->
+            <!--/>     <label class="control-label" for="field_reviewReady">Review Ready</label>-->
+        <!--</div>-->
+
+
+        <div class="row" ng-show="!!vm.movie.id">
+            <div class="col-xs-12" style="border-top: 1px solid #ccc;">
+                <table class="jh-table table table-striped">
+                    <thead>
+                    <th>Edit Questions</th>
+                    <th class="text-right">
+                        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal"
+                                ui-sref="movie.newInMovie({mId:vm.movie.id})">
+                            <span class="glyphicon glyphicon-plus"></span>&nbsp;<span>Add Question</span>
+                        </button>
+                    </th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat=" opt in vm.movie.questions">
+                        <td style="cursor:pointer;" ui-sref="movie.editInMovie({mId:vm.movie.id,id:opt.id})"><a>{{opt.question}}</a>
+                        </td>
+                        <td class="text-right" style="width:190px;">
+                            <span>Weight:</span>
+                            <input placeholder="weight" style="width:60px;" type="number" min="0" max="100" ng-model="opt.weight" />
+                            <a ui-sref="movie.editInMovie({mId:vm.movie.id,id:opt.id})" title="Edit Question"><span
+                                class="glyphicon glyphicon-pencil"></span></a>
+                            &nbsp;
+                            <a ui-sref="movie.deleteQuestionInMovie({mId:vm.movie.id,id:opt.id})"
+                               title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                    <tr ng-show="!vm.movie.questions.length">
+                        <td>There are no questions for this movie.</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+
+        <!--<div class="row">-->
+        <!--<div class="col-xs-12">-->
+        <!--<label for="field_question">Questions</label>-->
+        <!--<select class="form-control" id="field_question" multiple name="question" ng-model="vm.movie.questions" ng-options="question as question.question for question in vm.questions track by question.id"></select>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

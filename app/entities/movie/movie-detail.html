@@ -1,0 +1,72 @@
+<div>
+    <div class="row">
+        <h4 class="col-xs-12">
+            <div class="pull-left">
+                <span>Movie [{{vm.movie.title}}]</span>
+            </div>
+            <div class="pull-right" ng-style="{'color': (vm.movie.approval > 60 ? 'green' : 'red')}">
+                <span>Rating</span> <span>{{vm.movie.approval | number:2}}</span>&nbsp;
+                <span class="glyphicon" ng-class="{'glyphicon-thumbs-up': vm.movie.approval > 60, 'glyphicon-thumbs-down': vm.movie.approval <= 60}"></span>
+            </div>
+
+        </h4>
+    </div>
+
+    <hr>
+
+
+    <div>
+
+
+        <dl class="dl-horizontal">
+            <dt><img ng-src="{{vm.movie.image}}" style="height: 150px;" data-alt="{{vm.movie.title}}"/></dt>
+            <dd>
+                <span>{{vm.movie.description}}</span>
+            </dd>
+            <hr>
+        </dl>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="jh-table table table-striped">
+                    <thead>
+                    <th>Questions</th>
+                    <th class="text-right" has-authority="ROLE_ADMIN">
+                        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal"
+                                ui-sref="movie.newInMovie({mId:vm.movie.id})">
+                            <span class="glyphicon glyphicon-plus"></span>&nbsp;<span>Add Question</span>
+                        </button>
+                    </th>
+                    <th class="text-right" has-authority="ROLE_CRITIC" ng-show="!!vm.movie.questions.length && !!vm.movie.review && !vm.movie.review.id">
+                        <button type="button" class="btn btn-success" data-dismiss="modal"
+                                ui-sref="movie.reviewInMovie({id: 'newReview', mId:vm.movie.id})">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;<span>Review Movie</span>
+                        </button>
+                    </th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat=" opt in vm.movie.questions">
+                        <td style="cursor:pointer;" ui-sref="movie.answerInMovie({mId:vm.movie.id,id:opt.id})"><a>{{opt.question}}</a>
+                        </td>
+                        <td class="text-right" style="width:60px;" has-authority="ROLE_ADMIN">
+                            <a ui-sref="movie.editInMovie({mId:vm.movie.id,id:opt.id})" title="Edit Question"><span
+                                class="glyphicon glyphicon-pencil"></span></a>
+                            &nbsp;
+                            <a ui-sref="movie.deleteQuestionInMovie({mId:vm.movie.id,id:opt.id})"
+                               title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                    <tr ng-show="!vm.movie.questions.length">
+                        <td>There are no questions for this movie.</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <button type="submit"
+            onclick="window.location='/#/movie';"
+            class="btn btn-primary">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

@@ -1,0 +1,33 @@
+
+<div>
+    <h2><span>Review</span> {{vm.review.id}}</h2>
+    <hr>
+    <dl class="dl-horizontal">
+        <dt><span>Aggregate</dt></dt>
+        <dd>
+            <span>{{vm.review.aggregate}}<span>
+        </dd>
+        <hr>
+        <dt><span>Answers</dt></dt>
+        <dd>
+            <span>{{vm.review.answers}}<span>
+        </dd>
+        <hr>
+        <dt><span>movie</span></dt>
+        <dd>
+            <a ui-sref="movie-detail({id:vm.review.movieId})">{{vm.review.movieId}}</a>
+        </dd>
+        <hr>
+        <dt><span>critic</span></dt>
+        <dd>
+            <a ui-sref="critic-detail({id:vm.review.criticId})">{{vm.review.criticId}}</a>
+        </dd>
+        <hr>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-primary">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>
